@@ -1,6 +1,5 @@
 import json
 
-from tornado.ioloop import IOLoop
 from tornado.websocket import WebSocketHandler
 
 import sickrage
@@ -72,4 +71,4 @@ class WebSocketMessage(object):
             return
 
         for client in clients:
-            IOLoop.current().add_callback(client.write_message, self.json())
+            sickrage.app.io_loop.add_callback(client.write_message, self.json())
