@@ -39,6 +39,7 @@ from requests import HTTPError
 from tornado.concurrent import run_on_executor
 from tornado.escape import json_encode, recursive_unicode
 from tornado.gen import coroutine
+from tornado.ioloop import IOLoop
 from tornado.process import cpu_count
 from tornado.web import RequestHandler, authenticated
 
@@ -1070,7 +1071,7 @@ class Home(WebHandler):
         if not force:
             self._genericMessage(_("Restarting"), _("SiCKRAGE is restarting"))
 
-        sickrage.app.io_loop.add_timeout(datetime.timedelta(seconds=5), sickrage.app.shutdown, restart=True)
+        IOLoop.current().add_timeout(datetime.timedelta(seconds=5), sickrage.app.shutdown, restart=True)
 
         return self.render(
             "/home/restart.mako",
